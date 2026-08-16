@@ -1,15 +1,27 @@
 function generateRandomEmail(prefix = 'testuser') {
-  const timestamp = Date.now();
-  return `${prefix}_${timestamp}@example.com`;
+  return `${prefix}_${Date.now()}_${Math.floor(Math.random() * 1000)}@example.com`;
 }
 
 function generateRandomName(prefix = 'User') {
-  const timestamp = Date.now();
-  return `${prefix}${timestamp}`;
+  return `${prefix}${Date.now()}${Math.floor(Math.random() * 1000)}`;
 }
- 
+
+function generateRandomUser() {
+  const firstName = generateRandomName('First');
+  const lastName = generateRandomName('Last');
+
+  return {
+    firstName,
+    lastName,
+    email: generateRandomEmail('demoqa'),
+    age: '30',
+    salary: '50000',
+    department: 'QA'
+  };
+}
+
 module.exports = {
-    generateRandomEmail,
-    generateRandomName
+  generateRandomEmail,
+  generateRandomName,
+  generateRandomUser
 };
- 

@@ -1,263 +1,125 @@
-# Demoqa UI Automation
-Проект автоматизированного end-to-end тестирования сайта https://demoqa.com/
- 
-## Инструменты
-- JavaScript
-- Node.js
+# DemoQA UI and API Automation
+
+Автоматизированный тестовый фреймворк для сайта [DemoQA](https://demoqa.com).
+
+Проект реализован как расширение контрольной работы №2.
+
+## Технологии
+
+- Node.js 20+
 - Playwright
-- Playwright HTML Report
+- JavaScript
 - Page Object Model
-- Git
+- ESLint
+- Prettier
+- GitHub Actions
 
-## Функциональные области
-В проекте автоматизированы следующие области:
-1. Elements / Text Box
-2. Elements / Web Tables
-3. Forms / Practice Form
-4. Widgets / Select Menu 
- 
-## Установка зависимостей
-- npx install
+## Покрытие
 
-## Запуск всех кейсов
-- npm test
-- npm playwright test
+- 30 автоматизированных тестов.
+- 25 UI end-to-end тестов.
+- 5 API-тестов.
+- Более 10 функциональностей.
+- Smoke-набор с тегом `@smoke`.
+- API-набор с тегом `@api`.
+- Связанный UI + API сценарий Book Store.
 
-## Запуск тестов в headed mode
-- Запуск тестов в Сhromium
-npx playwright test --project=chromium --headed --workers=1
-- Запуск тестов в Firefox 
-npx playwright test --project=firefox --headed --workers=1
- --workers=1 - означает, что тесты выполняются последовательно по одному
+## Установка
 
-## Открытие report
-- npm run report
+```bash
+git clone <repository-url>
+cd demoqa-ui-automation
+npm install
+npx playwright install --with-deps
+```
 
-## Структура проекта
-demoqa-ui-automation
-- fixtures
-  - pages.fixture.js
+## Переменные окружения
 
-- helpers 
-  - dataGenerator.js
+Создать `.env` на основе `.env.example`.
 
-- pages
-  - BasePage.js
-  - PracticeFormPage.js
-  - SelectMenuPage.js
-  - TextBoxPage.js
-  - WebTablesPage.js
+```env
+BASE_URL=https://demoqa.com
+API_BASE_URL=https://demoqa.com
+```
 
-- test-data
-  - testData.js
+## Запуск тестов
 
-- tests
-  - practiceForm.spec.js
-  - selectMenu.spec.js
-  - testBox.spec.js
-  - webTables.spec.js
+### Все тесты
 
-- test-results
-- playwright-report
-- package.json
-- playwright.config.js
-- README.md
+```bash
+npm test
+```
 
-## Список тест-кейсов
-# Тест-кейсы — DemoQA UI Automation
- 
-## TC-001
-ID: TC-001  
-Название: Отправка формы Text Box с валидными данными  
-Функциональная область: Elements / Text Box  
-### Предусловие
-- Пользователь находится на странице Text Box:
-  `https://demoqa.com/text-box`
-### Шаги 
-1. Ввести корректное значение в поле Full Name.
-2. Ввести корректный email в поле Email.
-3. Ввести корректное значение в поле Current Address.
-4. Ввести корректное значение в поле Permanent Address.
-5. Нажать кнопку Submit.
- 
-### Ожидаемый результат
-- Отображается блок с отправленными данными.
-- В блоке отображается введенное значение в поле Full Name.
-- В блоке отображается введенное значение email в поле Email.
-- В блоке отображается введенное значение в поле Permanent Address.
- 
-## TC-002
-ID: TC-002  
-Название: Проверка валидации некорректного email в форме Text Box  
-Функциональная область: Elements / Text Box  
-### Предусловия
-- Пользователь находится на странице Text Box:
-  `https://demoqa.com/text-box`.
- 
-### Шаги
-1. Ввести корректное значение в поле Full Name.
-2. Ввести некорректный email в поле Email, например: `incorrect-email-format`.
-3. Ввести корректное значение в поле Current Address.
-4. Ввести корректное значение в поле Permanent Address.
-5. Нажать кнопку Submit.
+### UI-тесты
 
-### Ожидаемый результат
-- Поле email отмечено как некорректное.
-- Блок с отправленными данными не отображается.
+```bash
+npm run test:ui
+```
 
-## TC-003
-ID: TC-003  
-Название: Добавление новой записи в Web Tables  
-Функциональная область: Elements / Web Tables  
-### Предусловия
-- Пользователь находится на странице Web Tables:
-  `https://demoqa.com/webtables`.
- 
-### Шаги
-1. Нажать кнопку Add.
-2. Ввести корректное значение в поле First Name.
-3. Ввести корректное значение в поле Last Name.
-4. Ввести уникальный корректный email в поле Email.
-5. Ввести корректное значение в поле Age.
-6. Ввести корректное значение в поле Salary.
-7. Ввести корректное значение в поле Department.
-8. Нажать кнопку Submit.
- 
-### Ожидаемый результат
-- Форма добавления пользователя закрывается.
-- В таблице появляется новая запись.
-- В таблице отображается уникальный email созданного пользователя.
+### API-тесты
 
-## TC-004
-ID: TC-004  
-Название: Поиск существующего пользователя в Web Tables  
-Функциональная область: Elements / Web Tables  
-### Предусловия
-- Пользователь находится на странице Web Tables:
-  `https://demoqa.com/webtables`.
-- В таблице есть существующий пользователь, например `Cierra`.
- 
-### Шаги
-1. Ввести имя существующего пользователя в поле поиска.
-2. Дождаться фильтрации таблицы.
- 
-### Ожидаемый результат
-- В таблице отображается запись, соответствующая поисковому запросу.
-- Имя найденного пользователя отображается в таблице.
- 
-## TC-005
-ID: TC-005  
-Название: Редактирование созданной записи в Web Tables  
-Функциональная область: Elements / Web Tables  
-### Предусловия
-- Пользователь находится на странице Web Tables:
-  `https://demoqa.com/webtables`.
- 
-### Шаги
-1. Нажать кнопку Add.
-2. Заполнить все поля формы валидными уникальными данными.
-3. Нажать кнопку Submit.
-4. Найти созданного пользователя по уникальному email.
-5. Нажать кнопку Edit у созданного пользователя.
-6. Изменить значение поля Department.
-7. Нажать кнопку Submit.
- 
-### Ожидаемый результат
-- Закрывается форма редактирования выбранного пользователя.
-- Данные пользователя успешно сохранены.
-- В таблице отображается новое значение Department.
- 
-## TC-006
-ID: TC-006  
-Название: Удаление созданной записи из Web Tables  
-Функциональная область: Elements / Web Tables  
-### Предусловия
-- Пользователь находится на странице Web Tables:
-  `https://demoqa.com/webtables`.
- 
-### Шаги 
-1. Нажать кнопку Add.
-2. Заполнить все поля формы валидными уникальными данными.
-3. Нажать кнопку Submit.
-4. Нажать кнопку Delete у созданного пользователя.
- 
-### Ожидаемый результат
-- Запись созданного пользователя удалена из таблицы.
- 
-## TC-007
-ID: TC-007  
-Название: Отправка Practice Form с обязательными полями  
-Функциональная область: Forms / Practice Form  
-### Предусловия
-- Пользователь находится на странице Practice Form:
-  `https://demoqa.com/automation-practice-form`.
- 
-### Шаги
-1. Ввести корректное значение в поле Name
-2. Ввести корректное значение в поле Last Name.
-3. Выбрать пол.
-4. Ввести корректный номер телефона из 10 цифр.
-5. Нажать кнопку Submit.
- 
-### Ожидаемый результат
-- Отображается МО подтверждения с текстом `Thanks for submitting the form`
-- В МО отображаются введённые данные.
- 
-## TC-008
-ID: TC-008  
-Название: Отправка Practice Form с обязательными и дополнительными полями  
-Функциональная область: Forms / Practice Form  
-### Предусловия
-- Пользователь находится на странице Practice Form:
-  `https://demoqa.com/automation-practice-form`.
- 
-### Шаги
-1. Ввести корректное значение в поле Name
-2. Ввести корректное значение в поле Last Name.
-3. Ввести корректный email в поле Email.
-4. Выбрать пол.
-5. Ввести корректный номер телефона из 10 цифр в поле Mobile..
-6. Выбрать значение в поле Subjects.
-7. Выбрать значение в поле Hobbies.
-8. Ввести корректное значение в поле Current Address.
-9. Выбрать штат в поле State.
-10. Выбрать город в поле City.
-11. Нажать кнопку Submit.
- 
-### Ожидаемый результат
-- Отображается МО подтверждения с текстом `Thanks for submitting the form`
-- В МО отображаются введённые данные.
- 
-## TC-009
-ID: TC-009  
-Название: Выбор значения в Old Style Select Menu  
-Функциональная область: Widgets / Select Menu  
-### Предусловия
-- Пользователь находится на странице Select Menu:
-  `https://demoqa.com/select-menu`.
- 
-### Шаги
-1. Открыть выпадающий список Old Style Select Menu.
-2. Выбрать значение `Purple`.
- 
-### Ожидаемый результат
-- В выпадающем списке выбрано значение `Purple`.
-- Выбранное значение отображается в поле списка.
- 
-## TC-010
-ID: TC-010  
-Название: Выбор нескольких автомобилей в Standard Multi Select  
-Функциональная область: Widgets / Select Menu  
-### Предусловия
-- Пользователь находится на странице Select Menu:
-  `https://demoqa.com/select-menu`
+```bash
+npm run test:api
+```
 
-### Шаги
-1. Найти поле Standard multi select.
-2. Выбрать автомобиль `Volvo`.
-3. Выбрать автомобиль `Saab`.
- 
-### Ожидаемый результат
-- Значение `Volvo` выбрано.
-- Значение `Saab` выбрано.
-- Оба выбранных значения отображаются в поле множественного выбора.
+### Smoke-набор
+
+```bash
+npm run test:smoke
+```
+
+### Полная регрессия
+
+```bash
+npm run test:regression
+```
+
+### Запуск в headed-режиме
+
+```bash
+npm run test:headed
+```
+
+### Только Chromium
+
+```bash
+npm run test:ui:chromium
+```
+
+## Проверка качества кода
+
+```bash
+npm run lint
+npm run format:check
+npm run format
+```
+
+## Отчёт
+
+После запуска тестов:
+
+```bash
+npm run report
+```
+
+## Теги
+
+| Тег         | Назначение                 |
+| ----------- | -------------------------- |
+| `@smoke`    | Критичные быстрые сценарии |
+| `@api`      | API-тесты                  |
+| `@negative` | Негативные сценарии        |
+
+## GitHub Actions
+
+В проекте реализованы три workflow:
+
+- `api-tests.yml` — API-тесты при Pull Request, push в main и вручную.
+- `smoke-tests.yml` — smoke-набор в Chromium, Firefox и WebKit.
+- `regression-tests.yml` — полная регрессия в Chromium вручную, после push в main и по расписанию.
+
+В CI сохраняются Playwright report, screenshots, videos и traces при падении.
+
+## Известные ограничения
+
+DemoQA — публичный учебный сайт. Иногда возможны проблемы с рекламными блоками, скоростью ответа или временной недоступностью отдельных страниц. Для Web Tables используется обход рекламного блока при нажатии Edit и Delete.

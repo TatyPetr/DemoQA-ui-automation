@@ -1,5 +1,4 @@
 const textBoxData = {
-
   validUser: {
     fullName: 'Ivan Ivanov',
     email: 'ivan.ivanov@example.com',
@@ -8,7 +7,7 @@ const textBoxData = {
   },
   invalidEmail: 'incorrect-email-format'
 };
- 
+
 const webTableData = {
   firstName: 'Alex',
   lastName: 'Petrov',
@@ -17,7 +16,7 @@ const webTableData = {
   department: 'QA',
   searchText: 'Cierra'
 };
- 
+
 const practiceFormData = {
   firstName: 'Ivan',
   lastName: 'Petrov',
@@ -30,18 +29,17 @@ const practiceFormData = {
   state: 'NCR',
   city: 'Delhi'
 };
- 
+
 const selectMenuData = {
   oldStyleOption: 'Purple',
   selectOneOption: 'Mr.',
   multiSelectOptions: ['Volvo', 'Saab'],
   groupedOption: 'Group 1, option 1'
 };
- 
+
 module.exports = {
   textBoxData,
   webTableData,
   practiceFormData,
   selectMenuData
 };
- 

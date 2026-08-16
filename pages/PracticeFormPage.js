@@ -1,73 +1,87 @@
 const { BasePage } = require('./BasePage');
- 
+
 class PracticeFormPage extends BasePage {
   constructor(page) {
     super(page);
+
     this.firstNameInput = page.locator('#firstName');
     this.lastNameInput = page.locator('#lastName');
     this.emailInput = page.locator('#userEmail');
     this.mobileInput = page.locator('#userNumber');
-    this.subjectInput = page.locator('#subjectsInput');
-    this.addressInput = page.locator('#currentAddress');
+    this.currentAddressInput = page.locator('#currentAddress');
     this.submitButton = page.locator('#submit');
-    this.successModal = page.locator('.modal-content');
     this.modalTitle = page.locator('#example-modal-sizes-title-lg');
+    this.resultTable = page.locator('.table-responsive');
   }
- 
-  async openPracticeFormPage() {
-    await this.open('/automation-practice-form');
+
+  async open() {
+    await super.open('/automation-practice-form');
   }
- 
+
   async selectGender(gender) {
-    const genderId = {
-      Male: 'gender-radio-1',
-      Female: 'gender-radio-2',
-      Other: 'gender-radio-3'
-    };
-    await this.page.locator(`label[for="${genderId[gender]}"]`).click();
+    await this.page.getByText(gender, { exact: true }).click();
   }
- 
-  async selectHobby(hobby) {
-    await this.page.getByText(hobby, { exact: true }).click();
+
+  async selectDateOfBirth(dateOfBirth) {
+    await this.page.locator('#dateOfBirthInput').click();
+
+    await this.page
+      .locator('.react-datepicker__year-select')
+      .selectOption(dateOfBirth.year);
+
+    await this.page
+      .locator('.react-datepicker__month-select')
+      .selectOption({ label: dateOfBirth.month });
+
+    const daySelector =
+      `.react-datepicker__day--0${dateOfBirth.day}` +
+      ':not(.react-datepicker__day--outside-month)';
+
+    await this.page.locator(daySelector).click();
   }
- 
-  async selectSubject(subject) {
-    await this.subjectInput.fill(subject);
-    await this.subjectInput.press('Enter');
+
+  async selectSubjects(subjects) {
+    for (const subject of subjects) {
+      await this.page.locator('#subjectsInput').fill(subject);
+      await this.page.getByText(subject, { exact: true }).click();
+    }
   }
- 
-  async selectState(state) {
+
+  async selectHobbies(hobbies) {
+    for (const hobby of hobbies) {
+      await this.page.getByText(hobby, { exact: true }).click();
+    }
+  }
+
+  async selectStateAndCity(state, city) {
     await this.page.locator('#state').click();
-    await this.page.getByText(state, { exact: true }).last().click();
-  }
- 
-  async selectCity(city) {
+    await this.page.getByText(state, { exact: true }).click();
+
     await this.page.locator('#city').click();
-    await this.page.getByText(city, { exact: true }).last().click();
-  }
- 
-  async fillRequiredFields(formData) {
-    await this.firstNameInput.fill(formData.firstName);
-    await this.lastNameInput.fill(formData.lastName);
-    await this.selectGender(formData.gender);
-    await this.mobileInput.fill(formData.mobile);
+    await this.page.getByText(city, { exact: true }).click();
   }
 
-  async fillFullForm(formData) {
-    await this.fillRequiredFields(formData);
-    await this.emailInput.fill(formData.email);
-    await this.selectSubject(formData.subject);
-    await this.selectHobby(formData.hobby);
-    await this.addressInput.fill(formData.address);
-    await this.selectState(formData.state);
-    await this.selectCity(formData.city);
+  async fillRequiredFields(data) {
+    await this.firstNameInput.fill(data.firstName);
+    await this.lastNameInput.fill(data.lastName);
+    await this.selectGender(data.gender);
+    await this.mobileInput.fill(data.mobile);
   }
 
-  async submitForm() {
+  async fillFullForm(data) {
+    await this.fillRequiredFields(data);
+    await this.emailInput.fill(data.email);
+    await this.selectDateOfBirth(data.dateOfBirth);
+    await this.selectSubjects(data.subjects);
+    await this.selectHobbies(data.hobbies);
+    await this.currentAddressInput.fill(data.currentAddress);
+    await this.selectStateAndCity(data.state, data.city);
+  }
+
+  async submit() {
     await this.submitButton.scrollIntoViewIfNeeded();
     await this.submitButton.click();
   }
 }
-module.exports = {PracticeFormPage};
- 
 
+module.exports = { PracticeFormPage };
