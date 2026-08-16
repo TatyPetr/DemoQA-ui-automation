@@ -1,6 +1,6 @@
 const { test, expect } = require('../fixtures/pages.fixture');
 const { textBoxData } = require('../test-data/testData');
- 
+
 test.describe('Elements - Text Box', () => {
   test.beforeEach(async ({ textBoxPage }) => {
     await textBoxPage.openTextBoxPage();
@@ -15,8 +15,10 @@ test.describe('Elements - Text Box', () => {
     expect(submittedData).toContain(textBoxData.validUser.email);
     expect(submittedData).toContain(textBoxData.validUser.currentAddress);
   });
- 
-  test('TC-002: should show validation error for invalid email', async ({ textBoxPage }) => {
+
+  test('TC-002: should show validation error for invalid email', async ({
+    textBoxPage
+  }) => {
     await textBoxPage.fillTextBoxForm({
       ...textBoxData.validUser,
       email: textBoxData.invalidEmail
@@ -26,4 +28,3 @@ test.describe('Elements - Text Box', () => {
     await expect(textBoxPage.output).not.toBeVisible();
   });
 });
- 
